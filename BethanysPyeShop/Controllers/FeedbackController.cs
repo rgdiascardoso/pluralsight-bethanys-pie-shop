@@ -13,9 +13,24 @@ namespace BethanysPyeShop.Controllers
 
         public FeedbackController(IFeedbackRepository feedbackRepository)
         {
-            _feedbackRepository = feedbackRepository;
+            _feedbackRepository = feedbackRepository; 
         }
         public IActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Index(Feedback feedback)
+        {
+            if (ModelState.IsValid)
+            {
+                _feedbackRepository.AddFeedback(feedback);
+                return RedirectToAction("FeedbackComplete");
+            }
+            return View(feedback);
+        }
+
+        public IActionResult FeedbackComplete()
         {
             return View();
         }
